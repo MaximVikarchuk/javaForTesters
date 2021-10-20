@@ -8,6 +8,7 @@ public enum Obscacle {
         this.obstacle = obstacle;
         this.age = age;
     }
+
     public boolean ablePass(int age){
         return (age > 14 && age <= this.age );
     }
