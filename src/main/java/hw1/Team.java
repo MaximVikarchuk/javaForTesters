@@ -1,5 +1,6 @@
 package hw1;
 
+
 public class Team implements Competition{
 
     private final String teamName;
