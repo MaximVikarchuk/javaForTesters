@@ -1,5 +1,6 @@
 package hw1;
 
+
 public abstract class Run {
     protected final static boolean run(Obscacle[] obscacles, Member member){
         for (Obscacle obscacle : obscacles){
