@@ -12,7 +12,7 @@ import static hw6.Controller.NOW;
 import static java.time.Period.*;
 
 
-public class AccuweatherModel {
+public class AccuweatherModel implements UserInterfaceView {
     //    http://dataservice.accuweather.com/forecasts/v1/daily/1day/
 
     private static final String PROTOKOL = "https";
@@ -61,10 +61,42 @@ public class AccuweatherModel {
 
 
     }
-    public static void main(String[] args) throws IOException {
-        getWeather("222",FIVE_DAYS);
+
+    @Override
+    public List<Weather> getSavedToDBWeather() {
+        return dataBaseRepository.getSavedToDBWeather();
     }
 
+    private String detectCityKey(String selectCity) throws IOException {
+        //http://dataservice.accuweather.com/locations/v1/cities/autocomplete
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme(PROTOKOL)
+                .host(BASE_HOST)
+                .addPathSegment(LOCATIONS)
+                .addPathSegment(VERSION)
+                .addPathSegment(CITIES)
+                .addPathSegment(AUTOCOMPLETE)
+                .addQueryParameter(API_KEY_QUERY_PARAM, API_KEY)
+                .addQueryParameter("q", selectCity)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl)
+                .get()
+                .addHeader("accept", "application/json")
+                .build();
+
+        Response response = okHttpClient.newCall(request).execute();
+        String responseString = response.body().string();
+
+        String cityKey = objectMapper.readTree(responseString).get(0).at("/Key").asText();
+        return cityKey;
+    }
+//    public static void main(String[] args) throws IOException {
+//        getWeather("222",FIVE_DAYS);
+//    }
 
 
+    private class List<T> {
+    }
 }
