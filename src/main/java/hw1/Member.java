@@ -5,6 +5,7 @@ public class Member implements Obstacleable {
     private final String name;
     public boolean finished;
 
+
     public Member(String name, int age) {
         this.age = age;
         this.name = name;
