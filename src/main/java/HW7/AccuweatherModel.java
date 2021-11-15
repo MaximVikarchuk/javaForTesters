@@ -25,6 +25,7 @@ public class AccuweatherModel implements WeatherModel {
 
     private static final OkHttpClient okHttpClient = new OkHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final DataBaseRepository dataBaseRepository = new DataBaseRepository();
 
 
     public void getWeather(String selectedCity, Period period) throws IOException {
@@ -90,6 +91,7 @@ public class AccuweatherModel implements WeatherModel {
         }
     }
 
+
     private String detectCityKey(String selectCity) throws IOException {
 
         HttpUrl httpUrl = new HttpUrl.Builder()
@@ -114,5 +116,10 @@ public class AccuweatherModel implements WeatherModel {
 
         String cityKey = objectMapper.readTree(responseString).get(0).at("/Key").asText();
         return cityKey;
+    }
+
+    @Override
+    public void getSavedToDBWeather() {
+        dataBaseRepository.getSavedToDBWeather();
     }
 }
